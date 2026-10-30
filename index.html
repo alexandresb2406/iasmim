@@ -1,313 +1,174 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="h-full">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raízes: Colonização, Escravidão e Povos Originários à Cidadania Negada</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome for historical icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Raízes: Colonização, Escravidão e Povos Originários</title>
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
-        :root {
-            --wood-dark: #2b1810;
-            --wood-medium: #4a2c1d;
-            --parchment: #f4ecd8;
-            --parchment-light: #fbf7ee;
-            --gold: #d4af37;
-            --gold-dark: #aa8c2c;
-            --crimson: #8b0000;
-            --crimson-light: #a52a2a;
-        }
-
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--wood-dark);
-            color: var(--wood-dark);
-            background-image: radial-gradient(circle at center, #3d2417 0%, #1f110a 100%);
-            min-height: 100vh;
+            background-color: #1a0f0a;
+            color: #f4ecd8;
         }
-
-        .historical-title {
+        h1, h2, h3, .font-historical {
             font-family: 'Cinzel', serif;
         }
-
-        .parchment-card {
-            background-color: var(--parchment);
-            background-image: linear-gradient(to bottom right, #f8f1e3, #eee2cb);
-            border: 3px solid var(--gold);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), inset 0 0 40px rgba(139, 69, 19, 0.1);
+        /* Custom Animations */
+        @keyframes pulse-green {
+            0% { transform: scale(1); background-color: #166534; }
+            50% { transform: scale(1.03); background-color: #22c55e; color: #fff; }
+            100% { transform: scale(1); background-color: #166534; }
         }
-
-        .parchment-button {
-            background: linear-gradient(to bottom, #d4af37, #aa8c2c);
-            color: #2b1810;
-            font-family: 'Cinzel', serif;
-            font-weight: 700;
-            border: 2px solid #8b6508;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            transition: all 0.2s ease;
+        @keyframes shake-red {
+            0%, 100% { transform: translateX(0); background-color: #991b1b; }
+            20%, 60% { transform: translateX(-6px); background-color: #ef4444; color: #fff; }
+            40%, 80% { transform: translateX(6px); background-color: #ef4444; color: #fff; }
         }
-
-        .parchment-button:hover {
-            background: linear-gradient(to bottom, #e6c555, #d4af37);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
-        }
-
-        .parchment-button:active {
-            transform: translateY(1px);
-        }
-
-        .option-btn {
-            background-color: #faf5eb;
-            border: 2px solid #d4af37;
-            transition: all 0.2s ease;
-        }
-
-        .option-btn:hover:not(:disabled) {
-            background-color: #f1e4cb;
-            border-color: #aa8c2c;
-            transform: scale(1.01);
-        }
-
-        /* Animations for correct / incorrect answers */
-        @keyframes correctPulse {
-            0% { transform: scale(1); background-color: #d1fae5; border-color: #059669; }
-            50% { transform: scale(1.02); background-color: #a7f3d0; border-color: #047857; }
-            100% { transform: scale(1); background-color: #d1fae5; border-color: #059669; }
-        }
-
-        @keyframes incorrectShake {
-            0% { transform: translateX(0); background-color: #fee2e2; border-color: #dc2626; }
-            20% { transform: translateX(-8px); }
-            40% { transform: translateX(8px); }
-            60% { transform: translateX(-6px); }
-            80% { transform: translateX(6px); }
-            100% { transform: translateX(0); background-color: #fee2e2; border-color: #dc2626; }
-        }
-
         .animate-correct {
-            animation: correctPulse 0.6s ease forwards;
+            animation: pulse-green 0.6s ease-in-out;
         }
-
-        .animate-incorrect {
-            animation: incorrectShake 0.6s ease forwards;
-        }
-
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #2b1810;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--gold);
-            border-radius: 4px;
+        .animate-wrong {
+            animation: shake-red 0.6s ease-in-out;
         }
     </style>
 </head>
-<body class="flex flex-col min-h-full">
+<body class="min-h-screen flex flex-col justify-between bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#3a2213] via-[#1f110a] to-[#0d0704]">
 
-    <!-- Top Header Banner -->
-    <header class="bg-[#190e09] border-b-2 border-[#d4af37] py-3 px-4 text-center shadow-md">
-        <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-            <div class="flex items-center gap-2">
-                <i class="fas fa-feather-alt text-[#d4af37] text-xl"></i>
-                <span class="historical-title text-[#f4ecd8] text-sm sm:text-base font-bold tracking-wider">Apresentação Escolar</span>
-            </div>
-            <div class="text-[#d4af37] text-xs sm:text-sm font-semibold tracking-wide">
-                História do Brasil • Ensino Médio
-            </div>
-        </div>
+    <!-- Header / Título do Tema -->
+    <header class="w-full py-6 px-4 text-center border-b border-[#8c6d48]/40 bg-[#150a06]/80 backdrop-blur shadow-lg">
+        <h1 class="text-2xl md:text-4xl font-black tracking-wider text-[#f3e5ab] drop-shadow-md">
+            RAÍZES: COLONIZAÇÃO, ESCRAVIDÃO E POVOS ORIGINÁRIOS
+        </h1>
+        <p class="text-xs md:text-sm text-[#d4af37] tracking-widest uppercase mt-1">A Cidadania Negada</p>
     </header>
 
     <!-- Main Container -->
-    <main class="flex-grow flex items-center justify-center p-4 sm:p-6">
-        <div class="w-full max-w-3xl">
+    <main class="flex-grow flex items-center justify-center p-4 max-w-4xl mx-auto w-full">
 
-            <!-- SCREEN 1: WELCOME / HOME -->
-            <div id="screen-home" class="parchment-card rounded-xl p-6 sm:p-10 text-center relative overflow-hidden">
-                <div class="absolute top-2 left-2 text-[#8b0000] text-xl opacity-70"><i class="fas fa-landmark"></i></div>
-                <div class="absolute top-2 right-2 text-[#8b0000] text-xl opacity-70"><i class="fas fa-landmark"></i></div>
-                <div class="absolute bottom-2 left-2 text-[#8b0000] text-xl opacity-70"><i class="fas fa-anchor"></i></div>
-                <div class="absolute bottom-2 right-2 text-[#8b0000] text-xl opacity-70"><i class="fas fa-scroll"></i></div>
-
-                <div class="mb-6">
-                    <span class="inline-block px-4 py-1 rounded-full bg-[#8b0000] text-[#f4ecd8] font-bold text-xs uppercase tracking-widest mb-3 shadow">
-                        Quiz Educativo Interativo
-                    </span>
-                    <h1 class="historical-title text-2xl sm:text-4xl font-black text-[#2b1810] leading-tight mb-4">
-                        Raízes: Colonização, Escravidão e Povos Originários à Cidadania Negada
-                    </h1>
-                    <p class="text-sm sm:text-base text-[#4a2c1d] max-w-xl mx-auto font-medium leading-relaxed">
-                        Teste seus conhecimentos históricos sobre as bases da sociedade brasileira, as lutas dos povos originários e negros, e os desafios da cidadania.
-                    </p>
-                </div>
-
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8">
-                    <button onclick="goToScreen('screen-name')" class="parchment-button w-full sm:w-52 py-4 px-6 rounded-lg text-lg flex items-center justify-center gap-3 shadow-lg">
-                        <i class="fas fa-play text-base"></i> Jogar
-                    </button>
-                    <button onclick="openRanking()" class="w-full sm:w-52 py-4 px-6 rounded-lg text-lg font-bold text-[#f4ecd8] bg-[#4a2c1d] hover:bg-[#351f14] border-2 border-[#d4af37] transition-all flex items-center justify-center gap-3 shadow-lg">
-                        <i class="fas fa-trophy text-[#d4af37]"></i> Ranking
-                    </button>
-                </div>
+        <!-- 1. Tela Inicial -->
+        <div id="screen-home" class="w-full bg-[#2b1810]/90 border-2 border-[#8c6d48] rounded-2xl p-8 shadow-2xl text-center backdrop-blur">
+            <div class="mb-6">
+                <span class="inline-block px-4 py-1 rounded-full bg-[#4a2e18] text-[#f3e5ab] text-xs font-semibold tracking-wider uppercase border border-[#8c6d48]">
+                    Apresentação Escolar • História do Brasil
+                </span>
             </div>
-
-            <!-- SCREEN 2: NAME INPUT -->
-            <div id="screen-name" class="parchment-card rounded-xl p-6 sm:p-10 text-center hidden">
-                <h2 class="historical-title text-2xl sm:text-3xl font-bold text-[#2b1810] mb-3">Identificação do Viajante</h2>
-                <p class="text-sm text-[#4a2c1d] mb-6">Por favor, digite seu nome para registrar sua jornada no quiz:</p>
-                
-                <div class="max-w-md mx-auto mb-6">
-                    <input type="text" id="player-name-input" placeholder="Seu nome completo ou apelido..." maxlength="30"
-                        class="w-full px-4 py-3 rounded-lg border-2 border-[#d4af37] bg-[#fffcf5] text-[#2b1810] font-semibold text-center text-lg focus:outline-none focus:ring-2 focus:ring-[#8b0000]">
-                    <div id="name-error" class="text-red-700 text-xs mt-2 hidden font-semibold">Por favor, insira um nome válido antes de continuar.</div>
-                </div>
-
-                <div class="flex items-center justify-center gap-4">
-                    <button onclick="goToScreen('screen-home')" class="px-6 py-3 rounded-lg font-bold text-[#4a2c1d] bg-[#e6dbbf] hover:bg-[#d8ccb0] border border-[#aa8c2c] transition-all">
-                        <i class="fas fa-arrow-left mr-2"></i> Voltar
-                    </button>
-                    <button onclick="startQuiz()" class="parchment-button px-8 py-3 rounded-lg text-base flex items-center gap-2">
-                        Iniciar Quiz <i class="fas fa-arrow-right"></i>
-                    </button>
-                </div>
+            <h2 class="text-3xl font-bold mb-4 text-[#f3e5ab]">Desafio Histórico</h2>
+            <p class="text-[#dcd6c9] mb-8 max-w-lg mx-auto text-sm md:text-base leading-relaxed">
+                Teste seus conhecimentos sobre a colonização, a resistência dos povos originários e o impacto da escravidão na construção da sociedade brasileira.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button onclick="goToNameInput()" class="px-8 py-3 bg-gradient-to-r from-[#8b5a2b] to-[#b8860b] hover:from-[#a06832] hover:to-[#cca300] text-[#fff] font-bold rounded-xl shadow-lg transition transform hover:-translate-y-0.5 border border-[#ffd700]/50 tracking-wider font-historical cursor-pointer">
+                    JOGAR
+                </button>
+                <button onclick="showRankingScreen()" class="px-8 py-3 bg-[#3d2316] hover:bg-[#523120] text-[#f3e5ab] font-bold rounded-xl shadow-lg transition transform hover:-translate-y-0.5 border border-[#8c6d48] tracking-wider font-historical cursor-pointer">
+                    VER RANKING
+                </button>
             </div>
-
-            <!-- SCREEN 3: QUIZ GAME -->
-            <div id="screen-quiz" class="parchment-card rounded-xl p-5 sm:p-8 hidden">
-                <div class="flex flex-wrap items-center justify-between border-b-2 border-[#d4af37] pb-4 mb-5 gap-3">
-                    <div>
-                        <span id="question-counter" class="text-xs uppercase font-bold text-[#8b0000] tracking-wider block">Pergunta 1 de 15</span>
-                        <span id="player-display" class="historical-title text-sm sm:text-base font-bold text-[#2b1810]">Jogador: </span>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div class="bg-[#2b1810] text-[#f4ecd8] px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold border border-[#d4af37]">
-                            <i class="fas fa-star text-[#d4af37] mr-1"></i> Pontos: <span id="current-score">0</span>
-                        </div>
-                        <div id="timer-box" class="flex items-center gap-2 bg-[#8b0000] text-white px-3 py-1.5 rounded-lg text-xs sm:text-sm font-bold shadow">
-                            <i class="fas fa-clock"></i> <span id="time-left">30</span>s
-                        </div>
-                    </div>
-                </div>
-
-                <div class="w-full bg-[#e0d3bc] h-2 rounded-full mb-6 overflow-hidden border border-[#d4af37]">
-                    <div id="timer-bar" class="bg-[#8b0000] h-full transition-all duration-1000 w-full"></div>
-                </div>
-
-                <div class="mb-6">
-                    <h3 id="question-text" class="historical-title text-lg sm:text-xl font-bold text-[#2b1810] leading-snug">
-                        Carregando pergunta...
-                    </h3>
-                </div>
-
-                <div id="options-container" class="space-y-3 mb-6"></div>
-
-                <div id="feedback-area" class="hidden flex flex-col sm:flex-row items-center justify-between pt-4 border-t border-[#d4af37] gap-4">
-                    <div id="feedback-message" class="font-bold text-sm sm:text-base flex items-center gap-2"></div>
-                    <button onclick="nextQuestion()" class="parchment-button w-full sm:w-auto px-6 py-2.5 rounded-lg text-sm flex items-center justify-center gap-2">
-                        Próxima Pergunta <i class="fas fa-arrow-right"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- SCREEN 4: RESULTS -->
-            <div id="screen-result" class="parchment-card rounded-xl p-6 sm:p-10 text-center hidden">
-                <div class="w-16 h-16 bg-[#d4af37] text-[#2b1810] rounded-full flex items-center justify-center mx-auto mb-4 text-3xl shadow-lg border-2 border-[#8b0000]">
-                    <i class="fas fa-award"></i>
-                </div>
-                <h2 class="historical-title text-2xl sm:text-3xl font-black text-[#2b1810] mb-2">Quiz Concluído!</h2>
-                <p id="result-player-name" class="text-base font-semibold text-[#8b0000] mb-4">Parabéns, Jogador!</p>
-
-                <div class="bg-[#fffcf5] border-2 border-[#d4af37] rounded-xl p-6 max-w-md mx-auto mb-6 shadow-inner">
-                    <p class="text-sm text-[#4a2c1d] mb-2 font-medium">Sua pontuação final:</p>
-                    <div class="text-4xl sm:text-5xl font-black text-[#2b1810] historical-title mb-2">
-                        <span id="final-score">0</span> <span class="text-xl text-[#8b0000]">/ 15</span>
-                    </div>
-                    <p id="result-message" class="text-sm font-semibold text-[#4a2c1d] italic mt-2">
-                        Excelente reflexão histórica!
-                    </p>
-                </div>
-
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <button onclick="openRanking()" class="w-full sm:w-auto px-6 py-3 rounded-lg font-bold text-[#f4ecd8] bg-[#4a2c1d] hover:bg-[#351f14] border-2 border-[#d4af37] flex items-center justify-center gap-2 shadow">
-                        <i class="fas fa-trophy text-[#d4af37]"></i> Ver Ranking
-                    </button>
-                    <button onclick="restartQuiz()" class="parchment-button w-full sm:w-auto px-6 py-3 rounded-lg flex items-center justify-center gap-2 shadow">
-                        <i class="fas fa-redo"></i> Jogar Novamente
-                    </button>
-                    <button onclick="goToScreen('screen-home')" class="w-full sm:w-auto px-6 py-3 rounded-lg font-bold text-[#4a2c1d] bg-[#e6dbbf] hover:bg-[#d8ccb0] border border-[#aa8c2c] flex items-center justify-center gap-2">
-                        <i class="fas fa-home"></i> Início
-                    </button>
-                </div>
-            </div>
-
-            <!-- SCREEN 5: RANKING -->
-            <div id="screen-ranking" class="parchment-card rounded-xl p-6 sm:p-8 hidden">
-                <div class="flex items-center justify-between border-b-2 border-[#d4af37] pb-4 mb-6">
-                    <h2 class="historical-title text-xl sm:text-2xl font-bold text-[#2b1810] flex items-center gap-2">
-                        <i class="fas fa-trophy text-[#d4af37]"></i> Ranking Global (Firebase)
-                    </h2>
-                    <button onclick="goToScreen('screen-home')" class="text-xs sm:text-sm font-bold text-[#4a2c1d] bg-[#e6dbbf] hover:bg-[#d8ccb0] px-4 py-2 rounded-lg border border-[#aa8c2c] transition-all">
-                        <i class="fas fa-home mr-1"></i> Início
-                    </button>
-                </div>
-
-                <div class="max-h-80 overflow-y-auto mb-6 pr-2">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="border-b-2 border-[#aa8c2c] text-[#2b1810] text-xs sm:text-sm uppercase font-bold">
-                                <th class="py-2 px-3">#</th>
-                                <th class="py-2 px-3">Jogador</th>
-                                <th class="py-2 px-3 text-center">Acertos</th>
-                                <th class="py-2 px-3 text-right">Data</th>
-                            </tr>
-                        </thead>
-                        <tbody id="ranking-table-body" class="divide-y divide-[#d8ccb0] text-sm text-[#4a2c1d]">
-                            <!-- Dynamically populated -->
-                        </tbody>
-                    </table>
-                    <div id="loading-ranking" class="text-center py-8 text-[#654321] font-semibold">
-                        <i class="fas fa-spinner fa-spin mr-2"></i> Carregando resultados da nuvem...
-                    </div>
-                    <div id="empty-ranking" class="text-center py-8 text-[#654321] italic hidden">
-                        Nenhum registro no ranking ainda. Seja o primeiro a jogar!
-                    </div>
-                </div>
-
-                <div class="flex flex-col sm:flex-row items-center justify-end gap-4 pt-4 border-t border-[#d4af37]">
-                    <button onclick="restartQuiz()" class="parchment-button px-6 py-2.5 rounded-lg text-sm flex items-center gap-2">
-                        <i class="fas fa-play"></i> Jogar Agora
-                    </button>
-                </div>
-            </div>
-
         </div>
+
+        <!-- 2. Tela de Identificação do Jogador -->
+        <div id="screen-name" class="hidden w-full bg-[#2b1810]/90 border-2 border-[#8c6d48] rounded-2xl p-8 shadow-2xl text-center backdrop-blur max-w-md">
+            <h2 class="text-2xl font-bold mb-4 text-[#f3e5ab]">Identificação</h2>
+            <p class="text-sm text-[#dcd6c9] mb-6">Digite seu nome para registrar sua pontuação no ranking histórico:</p>
+            <input type="text" id="player-name-input" placeholder="Seu nome completo..." class="w-full px-4 py-3 bg-[#1a0f0a] border border-[#8c6d48] rounded-xl text-[#f4ecd8] placeholder-[#7a6452] focus:outline-none focus:border-[#d4af37] mb-6 text-center text-lg font-medium">
+            <button onclick="startQuiz()" class="w-full py-3 bg-gradient-to-r from-[#8b5a2b] to-[#b8860b] hover:from-[#a06832] hover:to-[#cca300] text-[#fff] font-bold rounded-xl shadow-lg transition font-historical tracking-wider cursor-pointer">
+                COMEÇAR JOGO
+            </button>
+        </div>
+
+        <!-- 3. Tela do Quiz -->
+        <div id="screen-quiz" class="hidden w-full bg-[#2b1810]/90 border-2 border-[#8c6d48] rounded-2xl p-6 md:p-8 shadow-2xl backdrop-blur">
+            <!-- Barra superior do quiz (Progresso e Timer) -->
+            <div class="flex justify-between items-center mb-6 border-b border-[#8c6d48]/40 pb-4">
+                <span id="question-counter" class="text-sm font-semibold text-[#d4af37] tracking-wider">Pergunta 1 de 15</span>
+                <div class="flex items-center gap-2 bg-[#1a0f0a] px-3 py-1.5 rounded-full border border-[#8c6d48]/60">
+                    <span class="text-xs text-[#dcd6c9]">⏱️ Tempo:</span>
+                    <span id="timer-display" class="font-bold text-[#f3e5ab] text-sm">30s</span>
+                </div>
+            </div>
+
+            <!-- Enunciado da Pergunta -->
+            <h3 id="question-text" class="text-lg md:text-xl font-bold text-[#f3e5ab] mb-6 min-h-[60px] leading-snug">
+                <!-- Inserido via JS -->
+            </h3>
+
+            <!-- Opções de Resposta -->
+            <div id="options-container" class="grid grid-cols-1 gap-3.5 mb-6">
+                <!-- Inserido via JS -->
+            </div>
+        </div>
+
+        <!-- 4. Tela de Fim de Jogo / Resultado -->
+        <div id="screen-gameover" class="hidden w-full bg-[#2b1810]/90 border-2 border-[#8c6d48] rounded-2xl p-8 shadow-2xl text-center backdrop-blur max-w-lg">
+            <h2 class="text-3xl font-bold mb-2 text-[#f3e5ab]">Fim de Jogo!</h2>
+            <p class="text-sm text-[#d4af37] mb-6">Sua jornada pelo conhecimento chegou ao fim.</p>
+            
+            <div class="bg-[#1a0f0a] border border-[#8c6d48]/60 rounded-xl p-6 mb-6">
+                <p class="text-sm text-[#dcd6c9]">Participante:</p>
+                <p id="final-player-name" class="text-xl font-bold text-[#f3e5ab] mb-3">Nome</p>
+                <p class="text-sm text-[#dcd6c9]">Total de Acertos:</p>
+                <p id="final-score" class="text-3xl font-black text-[#d4af37]">0 / 15</p>
+                <p id="sync-status" class="text-xs text-emerald-400 mt-2 font-medium">Salvando pontuação na nuvem...</p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button onclick="showRankingScreen()" class="px-6 py-3 bg-gradient-to-r from-[#8b5a2b] to-[#b8860b] hover:from-[#a06832] hover:to-[#cca300] text-[#fff] font-bold rounded-xl shadow-lg transition font-historical tracking-wider cursor-pointer">
+                    VER RANKING
+                </button>
+                <button onclick="resetGame()" class="px-6 py-3 bg-[#3d2316] hover:bg-[#523120] text-[#f3e5ab] font-bold rounded-xl shadow-lg transition border border-[#8c6d48] font-historical tracking-wider cursor-pointer">
+                    JOGAR NOVAMENTE
+                </button>
+            </div>
+        </div>
+
+        <!-- 5. Tela de Ranking -->
+        <div id="screen-ranking" class="hidden w-full bg-[#2b1810]/90 border-2 border-[#8c6d48] rounded-2xl p-6 md:p-8 shadow-2xl backdrop-blur max-w-2xl">
+            <div class="flex justify-between items-center mb-6 border-b border-[#8c6d48]/40 pb-4">
+                <h2 class="text-2xl font-bold text-[#f3e5ab]">Ranking Histórico</h2>
+                <button onclick="backToHome()" class="px-4 py-1.5 bg-[#3d2316] hover:bg-[#523120] text-[#f3e5ab] text-xs font-bold rounded-lg border border-[#8c6d48] cursor-pointer">
+                    Voltar ao Início
+                </button>
+            </div>
+            
+            <div class="overflow-y-auto max-h-96 pr-1 mb-6">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-[#8c6d48] text-[#d4af37] text-xs uppercase tracking-wider">
+                            <th class="py-2.5 px-3">#</th>
+                            <th class="py-2.5 px-3">Participante</th>
+                            <th class="py-2.5 px-3 text-right">Acertos</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ranking-table-body" class="divide-y divide-[#8c6d48]/20 text-sm">
+                        <!-- Inserido via JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <button onclick="goToNameInput()" class="w-full py-3 bg-gradient-to-r from-[#8b5a2b] to-[#b8860b] hover:from-[#a06832] hover:to-[#cca300] text-[#fff] font-bold rounded-xl shadow-lg transition font-historical tracking-wider cursor-pointer">
+                JOGAR AGORA
+            </button>
+        </div>
+
     </main>
 
-    <!-- Footer with team names and class -->
-    <footer class="bg-[#190e09] border-t-2 border-[#d4af37] py-4 px-4 text-center mt-auto shadow-inner">
-        <div class="max-w-4xl mx-auto">
-            <p class="text-[#f4ecd8] text-xs sm:text-sm font-medium tracking-wide">
-                <span class="text-[#d4af37] font-bold">Equipe:</span> Iasmim Santos; Ana Maria; Saulo Timóteo; Guilherme Mota e Karoline. <span class="text-[#d4af37] font-bold">11EM</span>
-            </p>
-        </div>
+    <!-- Rodapé com Créditos -->
+    <footer class="w-full py-4 px-4 text-center border-t border-[#8c6d48]/40 bg-[#150a06]/90 text-xs md:text-sm text-[#dcd6c9]">
+        <p class="font-medium text-[#f3e5ab]">Equipe: <span class="text-[#fff]">Iasmim Santos; Ana Maria; Saulo Timóteo; Guilherme Mota e Karoline</span> • <span class="text-[#d4af37] font-bold">11EM</span></p>
     </footer>
 
-    <!-- Firebase SDK Imports -->
+    <!-- Firebase SDKs & App Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getDatabase, ref, push, set, get, orderByKey } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
-        // Firebase Configuration
+        // Configuração fornecida pelo usuário
         const firebaseConfig = {
             apiKey: "AIzaSyBGiS0z6DGxSIvkrzu43u5DXjYW3G3O5uQ",
             authDomain: "trabalhogustavo-6cedd.firebaseapp.com",
@@ -319,431 +180,404 @@
             measurementId: "G-PJ8VEW1236"
         };
 
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'trabalhogustavo-app';
+        // Inicializar Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        const rtdb = getDatabase(app);
 
-        let currentUser = null;
+        // Autenticar anonimamente para permitir gravações seguras
+        signInAnonymously(auth).then(() => {
+            console.log("Firebase autenticado com sucesso!");
+        }).catch((error) => {
+            console.error("Erro na autenticação anônima do Firebase:", error);
+        });
 
-        // Anonymous auth initialization
-        async function initAuth() {
-            try {
-                const cred = await signInAnonymously(auth);
-                currentUser = cred.user;
-            } catch (err) {
-                console.error("Erro na autenticação anônima do Firebase:", err);
-            }
-        }
-        initAuth();
-
-        // Question dataset
-        const quizQuestions = [
+        // Banco de Perguntas (15 questões)
+        const questions = [
             {
-                question: "O que foi a colonização do Brasil?",
-                correct: "O processo de ocupação, exploração e domínio do território brasileiro por Portugal a partir do século XVI.",
+                q: "O que foi a colonização do Brasil?",
                 options: [
-                    "O processo de ocupação, exploração e domínio do território brasileiro por Portugal a partir do século XVI.",
-                    "A fundação pacífica de cidades sem conflitos com os habitantes locais.",
-                    "Uma aliança comercial igualitária entre portugueses e povos nativos.",
-                    "A imigração espontânea de europeus para o desenvolvimento agrícola livre."
-                ]
+                    "A exploração econômica, ocupação e dominação do território pelos portugueses.",
+                    "Uma viagem pacífica de intercâmbio cultural entre povos europeus e indígenas.",
+                    "A fundação de repúblicas democráticas independentes desde o século XVI.",
+                    "Um acordo comercial igualitário entre nativos e o reino de Portugal."
+                ],
+                correct: 0
             },
             {
-                question: "Quem eram os povos originários?",
-                correct: "Os povos indígenas que já habitavam o território brasileiro muito antes da chegada dos europeus.",
+                q: "Quem eram os povos originários?",
                 options: [
-                    "Os primeiros colonizadores portugueses que chegaram nas caravelas.",
-                    "Os imigrantes europeus que vieram para colonizar o litoral.",
-                    "Os povos indígenas que já habitavam o território brasileiro muito antes da chegada dos europeus.",
-                    "Os tropeiros que cruzavam o interior do país no período imperial."
-                ]
+                    "Imigrantes europeus que chegaram nas primeiras caravelas.",
+                    "Os povos indígenas que já habitavam o território brasileiro antes da chegada dos colonizadores.",
+                    "Comunidades mercantis vindas da África oriental.",
+                    "Exploradores espanhóis estabelecidos na região amazônica."
+                ],
+                correct: 1
             },
             {
-                question: "Como os indígenas foram tratados pelos colonizadores?",
-                correct: "Com exploração da mão de obra, violência, imposição cultural e perda de territórios.",
+                q: "Como os indígenas foram tratados pelos colonizadores?",
                 options: [
-                    "Com total igualdade de direitos e respeito às suas leis tradicionais.",
-                    "Com exploração da mão de obra, violência, imposição cultural e perda de territórios.",
-                    "Como aliados políticos em pé de igualdade na administração colonial.",
-                    "Como proprietários legais das terras após acordos diplomáticos."
-                ]
+                    "Com total respeito à sua soberania e autonomia territorial.",
+                    "Como aliados políticos com direitos constitucionais garantidos.",
+                    "Com exploração do trabalho forçado, violência, expulsão de terras e disseminação de doenças.",
+                    "Como cidadãos plenos integrados à corte portuguesa."
+                ],
+                correct: 2
             },
             {
-                question: "O que foi a escravidão no Brasil?",
-                correct: "O sistema econômico e social baseado na exploração forçada e desumanizada de pessoas negras trazidas da África.",
+                q: "O que foi a escravidão no Brasil?",
                 options: [
-                    "Um regime de trabalho assalariado temporário para todos os habitantes.",
-                    "Um acordo voluntário de prestação de serviços em troca de moradia.",
-                    "O sistema econômico e social baseado na exploração forçada e desumanizada de pessoas negras trazidas da África.",
-                    "Uma lei que obrigava os europeus a trabalharem nas lavouras de cana."
-                ]
+                    "Um sistema de trabalho temporário e assalariado regulamentado por leis trabalhistas.",
+                    "A prática institucionalizada de reduzir seres humanos à condição de propriedade, negando-lhes a liberdade.",
+                    "Um programa de intercâmbio educacional obrigatório.",
+                    "Um modelo cooperativo de produção agrícola."
+                ],
+                correct: 1
             },
             {
-                question: "Quem eram as pessoas escravizadas?",
-                correct: "Principalmente africanos sequestrados de suas terras e trazidos à força, além de indígenas em períodos iniciais.",
+                q: "Quem eram as pessoas escravizadas no Brasil colonial e imperial?",
                 options: [
-                    "Apenas nobres portugueses que perderam seus títulos na Europa.",
-                    "Principalmente africanos sequestrados de suas terras e trazidos à força, além de indígenas em períodos iniciais.",
-                    "Colonizadores voluntários que buscavam enriquecimento rápido.",
-                    "Comerciantes livres que viajavam entre continentes."
-                ]
+                    "Principalmente indígenas nativos e milhões de africanos trazidos à força, além de seus descendentes.",
+                    "Apenas marinheiros desertores de frotas estrangeiras.",
+                    "Nobreza falida exilada da Europa.",
+                    "Comerciantes livres de especiarias asiáticas."
+                ],
+                correct: 0
             },
             {
-                question: "O que significa cidadania negada?",
-                correct: "A ausência de direitos civis, políticos, sociais e humanos fundamentais para grande parte da população.",
+                q: "O que significa cidadania negada?",
                 options: [
-                    "O direito de votar e ser votado concedido a todos os cidadãos livremente.",
-                    "A proibição de viajar para fora do país durante o período colonial.",
-                    "A ausência de direitos civis, políticos, sociais e humanos fundamentais para grande parte da população.",
-                    "O acesso igualitário à educação e à justiça em tribunais reais."
-                ]
+                    "Ter acesso livre a todos os serviços de saúde, educação e voto universal.",
+                    "A privação sistemática de direitos civis, políticos e sociais a determinados grupos da população.",
+                    "O direito garantido de participar das decisões do governo imperial.",
+                    "A concessão de títulos de nobreza a trabalhadores rurais."
+                ],
+                correct: 1
             },
             {
-                question: "Por que os negros não tinham direitos?",
-                correct: "Eram vistos legal e socialmente como propriedade (mercadoria) e não como seres humanos detentores de direitos.",
+                q: "Por que os negros escravizados não tinham direitos?",
                 options: [
-                    "Porque preferiam viver à margem da sociedade por vontade própria.",
-                    "Eram vistos legal e socialmente como propriedade (mercadoria) e não como seres humanos detentores de direitos.",
-                    "Porque a Constituição da época garantia direitos apenas aos reis.",
-                    "Porque os impostos cobrados deles eram excessivamente altos."
-                ]
+                    "Porque optaram voluntariamente por abrir mão de sua cidadania.",
+                    "Porque o sistema escravocrata os tratava legalmente como coisas/mercadorias e não como pessoas perante a lei.",
+                    "Porque a constituição da época garantia direitos apenas aos estrangeiros.",
+                    "Porque todos tinham direitos iguais, mas preferiam não usá-los."
+                ],
+                correct: 1
             },
             {
-                question: "Como a colonização afetou os indígenas?",
-                correct: "Causou dizimação demográfica por doenças, guerras, escravidão e destruição de suas culturas.",
+                q: "Como a colonização afetou os povos indígenas?",
                 options: [
-                    "Causou dizimação demográfica por doenças, guerras, escravidão e destruição de suas culturas.",
-                    "Promoveu o crescimento populacional e o desenvolvimento tecnológico avançado.",
-                    "Integrou pacificamente todas as tribos à economia mercantil europeia.",
-                    "Preservou intactas todas as terras e tradições ancestrais."
-                ]
+                    "Gerou expansão populacional e modernização tecnológica imediata das aldeias.",
+                    "Provocou a dizimação de milhares de vidas, destruição de culturas e perda de territórios ancestrais.",
+                    "Nenhum impacto relevante foi registrado nos primeiros séculos.",
+                    "Transformou todas as tribos em lideranças políticas do império."
+                ],
+                correct: 1
             },
             {
-                question: "Quais direitos foram negados aos povos originários?",
-                correct: "O direito à posse de suas terras tradicionais, à liberdade, à cultura e à soberania.",
+                q: "Quais direitos fundamentais foram negados aos povos originários?",
                 options: [
+                    "O direito à posse de suas terras tradicionais, à preservação cultural e à própria vida.",
                     "O direito de cobrar impostos da coroa portuguesa.",
-                    "O direito à posse de suas terras tradicionais, à liberdade, à cultura e à soberania.",
-                    "O direito de portar armas de fogo importadas da Europa.",
-                    "O direito de governar as capitanias hereditárias."
-                ]
+                    "O direito de monopolizar o comércio de açúcar na Europa.",
+                    "Nenhum direito lhes foi negado."
+                ],
+                correct: 0
             },
             {
-                question: "Como a escravidão afetou o Brasil atual?",
-                correct: "Deixou profundas marcas de desigualdade social, racismo estrutural e exclusão econômica.",
+                q: "Como a escravidão refletiu no Brasil atual?",
                 options: [
-                    "Não deixou nenhum impacto visível na sociedade contemporânea.",
-                    "Garantiu a distribuição igualitária de riquezas para todas as famílias.",
                     "Deixou profundas marcas de desigualdade social, racismo estrutural e exclusão econômica.",
-                    "Eliminou completamente qualquer forma de preconceito no país."
-                ]
+                    "Não deixou nenhuma consequência visível na sociedade contemporânea.",
+                    "Garantiu a distribuição igualitária de riquezas em todo o país.",
+                    "Eliminou todas as formas de preconceito no século XIX."
+                ],
+                correct: 0
             },
             {
-                question: "O que foi a resistência indígena?",
-                correct: "As diversas formas de luta armada, fuga, preservação cultural e revolta contra o domínio colonial.",
+                q: "O que foi a resistência indígena?",
                 options: [
-                    "A aceitação pacífica das regras impostas pelos jesuítas e bandeirantes.",
-                    "As diversas formas de luta armada, fuga, preservação cultural e revolta contra o domínio colonial.",
-                    "A mudança voluntária para o interior do continente sem conflitos.",
-                    "A criação de leis em conjunto com a Coroa Portuguesa."
-                ]
+                    "A aceitação pacífica e imediata das regras impostas pela coroa.",
+                    "As lutas, revoltas, fugas e preservação cultural frente à dominação colonial.",
+                    "A mudança voluntária para os centros urbanos portugueses.",
+                    "A criação de alianças comerciais com invasores."
+                ],
+                correct: 1
             },
             {
-                question: "Como os negros resistiram à escravidão?",
-                correct: "Através de fugas, formação de quilombos (como Palmares), revoltas, sabotagens e preservação religiosa.",
+                q: "Como os negros resistiram à escravidão no Brasil?",
                 options: [
-                    "Apenas através de petições judiciais aceitas pelos tribunais reais.",
-                    "Aceitando passivamente a condição sem nenhum tipo de reação.",
-                    "Através de fugas, formação de quilombos (como Palmares), revoltas, sabotagens e preservação religiosa.",
-                    "Mudando-se legalmente para países vizinhos."
-                ]
+                    "Através de fugas, formação de Quilombos (como Palmares), revoltas armadas e preservação de religiões e tradições.",
+                    "Apenas aceitando as ordens dos senhores sem protestar.",
+                    "Escrevendo petições judiciais aceitas pelo imperador.",
+                    "Através de greves gerais pacíficas no século XVII."
+                ],
+                correct: 0
             },
             {
-                question: "A abolição garantiu igualdade aos negros?",
-                correct: "Não. A Lei Áurea encerrou a escravidão, mas não ofereceu apoio social, terra ou inserção digna na sociedade.",
+                q: "A abolição da escravidão (1888) garantiu cidadania e igualdade imediata aos negros?",
                 options: [
-                    "Sim. Todos receberam terras, moradia e indenizações financeiras imediatas.",
-                    "Não. A Lei Áurea encerrou a escravidão, mas não ofereceu apoio social, terra ou inserção digna na sociedade.",
-                    "Sim. Houve total integração com salários justos logo no dia seguinte.",
-                    "Não houve abolição formal, a escravidão continuou até o século XXI."
-                ]
+                    "Sim, todos receberam terras, empregos e direitos civis plenos no dia seguinte.",
+                    "Não, foram libertos sem nenhuma reparação estatal, apoio socioeconômico ou inclusão efetiva, gerando margens de pobreza.",
+                    "Sim, o governo integrou imediatamente toda a população negra nas universidades.",
+                    "Não houve abolição formal da escravidão no Brasil."
+                ],
+                correct: 1
             },
             {
-                question: "Quais desigualdades existem até hoje?",
-                correct: "Disparidades raciais e socioeconômicas, racismo estrutural e menor acesso a direitos básicos por negros e indígenas.",
+                q: "Quais desigualdades históricas persistem até hoje no Brasil?",
                 options: [
-                    "Disparidades raciais e socioeconômicas, racismo estrutural e menor acesso a direitos básicos por negros e indígenas.",
-                    "Desigualdades salariais entre homens e mulheres na Roma antiga.",
-                    "Falta de acesso a foguetes espaciais para a população rural.",
-                    "Diferenças climáticas entre o norte e o sul do Brasil."
-                ]
+                    "Desigualdade de renda, racismo estrutural e dificuldade de acesso à terra e direitos básicos por minorias.",
+                    "Exclusão total das classes dominantes tradicionais.",
+                    "Ausência completa de diferenças sociais em todas as regiões.",
+                    "Falta de oportunidades exclusivas para bilionários."
+                ],
+                correct: 0
             },
             {
-                question: "Por que devemos valorizar os povos originários?",
-                correct: "Por sua importância histórica, preservação ambiental, diversidade cultural e por serem os verdadeiros donos da terra.",
+                q: "Por que devemos valorizar e respeitar os povos originários hoje?",
                 options: [
-                    "Apenas pelo entretenimento turístico que proporcionam nas cidades.",
-                    "Porque eles cobram impostos para manter a floresta em pé.",
-                    "Porque eles substituíram a mão de obra escrava no século XIX.",
-                    "Por sua importância histórica, preservação ambiental, diversidade cultural e por serem os verdadeiros donos da terra."
-                ]
+                    "Porque eles possuem apenas relevância artística decorativa.",
+                    "Pela preservação ambiental, riqueza cultural e histórica e reparação de injustiças históricas fundamentais.",
+                    "Porque eles controlam o sistema financeiro internacional.",
+                    "Sua valorização não possui importância para o país atual."
+                ],
+                correct: 1
             }
         ];
 
-        // Global State
-        window.playerName = "";
-        window.currentQuestionIndex = 0;
-        window.score = 0;
-        window.timer = null;
-        window.timeLeft = 30;
-        window.questionAnswered = false;
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let playerName = "";
+        let timer = null;
+        let timeLeft = 30;
 
-        window.goToScreen = function(screenId) {
-            const screens = ['screen-home', 'screen-name', 'screen-quiz', 'screen-result', 'screen-ranking'];
-            screens.forEach(id => document.getElementById(id).classList.add('hidden'));
-            document.getElementById(screenId).classList.remove('hidden');
-            if (screenId !== 'screen-quiz' && window.timer) {
-                clearInterval(window.timer);
-            }
+        // Expor funções globalmente para os botões do HTML
+        window.goToNameInput = function() {
+            document.getElementById('screen-home').classList.add('hidden');
+            document.getElementById('screen-ranking').classList.add('hidden');
+            document.getElementById('screen-name').classList.remove('hidden');
         };
 
         window.startQuiz = function() {
             const input = document.getElementById('player-name-input');
-            const errorDiv = document.getElementById('name-error');
-            const nameVal = input.value.trim();
-
-            if (!nameVal) {
-                errorDiv.classList.remove('hidden');
-                input.focus();
+            playerName = input.value.trim();
+            if(!playerName) {
+                alert("Por favor, digite seu nome para continuar!");
                 return;
             }
-
-            errorDiv.classList.add('hidden');
-            window.playerName = nameVal;
-            window.currentQuestionIndex = 0;
-            window.score = 0;
-
-            document.getElementById('player-display').innerText = `Jogador: ${window.playerName}`;
-            window.goToScreen('screen-quiz');
+            document.getElementById('screen-name').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+            currentQuestionIndex = 0;
+            score = 0;
             loadQuestion();
         };
 
         function loadQuestion() {
-            window.questionAnswered = false;
-            document.getElementById('feedback-area').classList.add('hidden');
+            clearInterval(timer);
+            if(currentQuestionIndex >= questions.length) {
+                endQuiz();
+                return;
+            }
+
+            timeLeft = 30;
+            document.getElementById('timer-display').innerText = timeLeft + 's';
             
-            const q = quizQuestions[window.currentQuestionIndex];
-            document.getElementById('question-counter').innerText = `Pergunta ${window.currentQuestionIndex + 1} de ${quizQuestions.length}`;
-            document.getElementById('current-score').innerText = window.score;
-            document.getElementById('question-text').innerText = q.question;
+            const qData = questions[currentQuestionIndex];
+            document.getElementById('question-counter').innerText = `Pergunta ${currentQuestionIndex + 1} de ${questions.length}`;
+            document.getElementById('question-text').innerText = qData.q;
 
-            const shuffledOpts = [...q.options];
-            shuffleArray(shuffledOpts);
+            // Embaralhar as opções mantendo rastreio da correta
+            let optionsWithIndex = qData.options.map((opt, idx) => ({ text: opt, originalIndex: idx }));
+            optionsWithIndex.sort(() => Math.random() - 0.5);
 
-            const optionsContainer = document.getElementById('options-container');
-            optionsContainer.innerHTML = '';
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
 
-            shuffledOpts.forEach((opt, idx) => {
+            optionsWithIndex.forEach((item) => {
                 const btn = document.createElement('button');
-                btn.className = 'option-btn w-full text-left p-4 rounded-lg font-medium text-sm sm:text-base text-[#2b1810] flex items-start gap-3 shadow-sm';
-                btn.innerHTML = `
-                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#d4af37] text-[#2b1810] font-bold text-xs flex-shrink-0 mt-0.5">${String.fromCharCode(65 + idx)}</span>
-                    <span class="flex-grow">${opt}</span>
-                `;
-                btn.onclick = () => selectOption(opt, btn, q.correct);
-                optionsContainer.appendChild(btn);
+                btn.className = "w-full text-left p-4 rounded-xl bg-[#1a0f0a] border border-[#8c6d48]/60 hover:border-[#d4af37] text-[#f4ecd8] font-medium transition shadow-md hover:bg-[#321c12] cursor-pointer text-sm md:text-base";
+                btn.innerText = item.text;
+                btn.onclick = () => selectAnswer(item.originalIndex === qData.correct, btn);
+                container.appendChild(btn);
             });
 
-            startTimer();
-        }
-
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-
-        function startTimer() {
-            if (window.timer) clearInterval(window.timer);
-            window.timeLeft = 30;
-            document.getElementById('time-left').innerText = window.timeLeft;
-            const timerBar = document.getElementById('timer-bar');
-            timerBar.style.width = '100%';
-
-            window.timer = setInterval(() => {
-                window.timeLeft--;
-                document.getElementById('time-left').innerText = window.timeLeft;
-                const percentage = (window.timeLeft / 30) * 100;
-                timerBar.style.width = percentage + '%';
-
-                if (window.timeLeft <= 0) {
-                    clearInterval(window.timer);
+            // Iniciar Timer
+            timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer-display').innerText = timeLeft + 's';
+                if(timeLeft <= 0) {
+                    clearInterval(timer);
+                    // Tempo esgotado conta como erro
                     handleTimeOut();
                 }
             }, 1000);
         }
 
         function handleTimeOut() {
-            if (window.questionAnswered) return;
-            window.questionAnswered = true;
-            
-            const q = quizQuestions[window.currentQuestionIndex];
-            const buttons = document.querySelectorAll('.option-btn');
-            
-            buttons.forEach(btn => {
-                btn.disabled = true;
-                const textSpan = btn.querySelector('span:nth-child(2)').innerText;
-                if (textSpan === q.correct) {
-                    btn.classList.add('animate-correct');
-                }
-            });
-
-            const feedbackArea = document.getElementById('feedback-area');
-            const feedbackMsg = document.getElementById('feedback-message');
-            feedbackMsg.innerHTML = `<span class="text-amber-800 flex items-center gap-2"><i class="fas fa-hourglass-end text-lg"></i> Tempo esgotado! A resposta correta era: <strong>${q.correct}</strong></span>`;
-            feedbackArea.classList.remove('hidden');
-        }
-
-        function selectOption(selectedOpt, btnElement, correctOpt) {
-            if (window.questionAnswered) return;
-            window.questionAnswered = true;
-            clearInterval(window.timer);
-
-            const buttons = document.querySelectorAll('.option-btn');
-            buttons.forEach(b => b.disabled = true);
-
-            const feedbackArea = document.getElementById('feedback-area');
-            const feedbackMsg = document.getElementById('feedback-message');
-
-            if (selectedOpt === correctOpt) {
-                window.score++;
-                document.getElementById('current-score').innerText = window.score;
-                btnElement.classList.add('animate-correct');
-                feedbackMsg.innerHTML = `<span class="text-emerald-700 flex items-center gap-2"><i class="fas fa-check-circle text-xl"></i> Resposta Correta! Excelente!</span>`;
-            } else {
-                btnElement.classList.add('animate-incorrect');
-                buttons.forEach(b => {
-                    const textSpan = b.querySelector('span:nth-child(2)').innerText;
-                    if (textSpan === correctOpt) {
-                        b.classList.add('animate-correct');
-                    }
-                });
-                feedbackMsg.innerHTML = `<span class="text-red-700 flex items-center gap-2"><i class="fas fa-times-circle text-xl"></i> Resposta Incorreta!</span>`;
+            const container = document.getElementById('options-container');
+            const buttons = container.getElementsByTagName('button');
+            for(let b of buttons) {
+                b.disabled = true;
             }
-
-            feedbackArea.classList.remove('hidden');
-        }
-
-        window.nextQuestion = function() {
-            window.currentQuestionIndex++;
-            if (window.currentQuestionIndex < quizQuestions.length) {
+            setTimeout(() => {
+                currentQuestionIndex++;
                 loadQuestion();
+            }, 1000);
+        }
+
+        window.selectAnswer = function(isCorrect, btnElement) {
+            clearInterval(timer);
+            const container = document.getElementById('options-container');
+            const buttons = container.getElementsByTagName('button');
+            for(let b of buttons) {
+                b.disabled = true;
+            }
+
+            if(isCorrect) {
+                score++;
+                btnElement.classList.add('animate-correct');
             } else {
-                finishQuiz();
+                btnElement.classList.add('animate-wrong');
             }
+
+            setTimeout(() => {
+                currentQuestionIndex++;
+                loadQuestion();
+            }, 900);
         };
 
-        async function finishQuiz() {
-            if (window.timer) clearInterval(window.timer);
-            window.goToScreen('screen-result');
+        function endQuiz() {
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('screen-gameover').classList.remove('hidden');
+            document.getElementById('final-player-name').innerText = playerName;
+            document.getElementById('final-score').innerText = `${score} / ${questions.length}`;
 
-            document.getElementById('result-player-name').innerText = `Parabéns, ${window.playerName}!`;
-            document.getElementById('final-score').innerText = window.score;
-
-            let msg = "";
-            if (window.score === 15) msg = "Perfeito! Historiador(a) nota 10! Domínio completo do tema.";
-            else if (window.score >= 10) msg = "Muito bom! Você compreendeu muito bem as raízes da nossa história.";
-            else if (window.score >= 5) msg = "Bom esforço! Que tal revisar o material da apresentação e tentar novamente?";
-            else msg = "Continue estudando! A história de nossas raízes é fundamental para compreendermos o presente.";
-            
-            document.getElementById('result-message').innerText = msg;
-
-            await saveToFirebase(window.playerName, window.score);
+            saveScoreToFirebase(playerName, score);
         }
 
-        async function saveToFirebase(name, finalScore) {
-            const dateStr = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        async function saveScoreToFirebase(name, finalScore) {
+            const statusEl = document.getElementById('sync-status');
+            statusEl.innerText = "Salvando no Firebase...";
             
+            const record = {
+                name: name,
+                score: finalScore,
+                date: new Date().toISOString()
+            };
+
+            let saved = false;
+
+            // Tentativa 1: Cloud Firestore
             try {
-                if (auth.currentUser) {
-                    const rankingsRef = collection(db, 'artifacts', appId, 'public', 'data', 'rankings');
-                    await addDoc(rankingsRef, {
-                        name: name,
-                        score: finalScore,
-                        date: dateStr,
-                        timestamp: Date.now()
-                    });
-                }
-            } catch (e) {
-                console.error("Erro ao salvar no Firestore:", e);
+                await addDoc(collection(db, "rankings"), record);
+                saved = true;
+                console.log("Salvo no Firestore com sucesso!");
+            } catch(e) {
+                console.warn("Falha ao salvar no Firestore, tentando Realtime Database...", e);
+            }
+
+            // Tentativa 2: Realtime Database (caso configurado)
+            try {
+                const newRef = push(ref(rtdb, 'rankings'));
+                await set(newRef, record);
+                saved = true;
+                console.log("Salvo no Realtime Database com sucesso!");
+            } catch(e) {
+                console.warn("Falha ao salvar no Realtime Database.", e);
+            }
+
+            // Salvar também no localStorage como garantia local
+            try {
+                let localRank = JSON.parse(localStorage.getItem('quiz_ranking') || '[]');
+                localRank.push(record);
+                localStorage.setItem('quiz_ranking', JSON.stringify(localRank));
+            } catch(e) {}
+
+            if(saved) {
+                statusEl.innerText = "✅ Pontuação salva com sucesso na nuvem!";
+                statusEl.className = "text-xs text-emerald-400 mt-2 font-medium";
+            } else {
+                statusEl.innerText = "⚠️ Salvo no modo local (verifique as regras do Firebase).";
+                statusEl.className = "text-xs text-amber-400 mt-2 font-medium";
             }
         }
 
-        window.openRanking = async function() {
-            window.goToScreen('screen-ranking');
-            await fetchAndRenderRanking();
-        };
+        window.showRankingScreen = async function() {
+            document.getElementById('screen-home').classList.add('hidden');
+            document.getElementById('screen-gameover').classList.add('hidden');
+            document.getElementById('screen-ranking').classList.remove('hidden');
 
-        async function fetchAndRenderRanking() {
             const tbody = document.getElementById('ranking-table-body');
-            const loadingDiv = document.getElementById('loading-ranking');
-            const emptyDiv = document.getElementById('empty-ranking');
-            
-            tbody.innerHTML = '';
-            loadingDiv.classList.remove('hidden');
-            emptyDiv.classList.add('hidden');
+            tbody.innerHTML = `<tr><td colspan="3" class="py-4 text-center text-xs text-[#dcd6c9]">Carregando ranking da nuvem...</td></tr>`;
 
-            let rankings = [];
+            let allScores = [];
 
+            // Buscar do Firestore
             try {
-                const rankingsRef = collection(db, 'artifacts', appId, 'public', 'data', 'rankings');
-                const snapshot = await getDocs(rankingsRef);
-                snapshot.forEach(doc => {
-                    rankings.push(doc.data());
+                const q = query(collection(db, "rankings"), orderBy("score", "desc"));
+                const querySnapshot = await getDocs(q);
+                querySnapshot.forEach((doc) => {
+                    allScores.push(doc.data());
                 });
-
-                rankings.sort((a, b) => b.score - a.score);
-            } catch (e) {
-                console.error("Erro ao carregar dados do Firebase:", e);
-            } finally {
-                loadingDiv.classList.add('hidden');
+            } catch(e) {
+                console.warn("Não foi possível carregar do Firestore, buscando local...", e);
             }
 
-            if (rankings.length === 0) {
-                emptyDiv.classList.remove('hidden');
+            // Se vazio, buscar do Realtime ou LocalStorage
+            if(allScores.length === 0) {
+                try {
+                    const snapshot = await get(ref(rtdb, 'rankings'));
+                    if(snapshot.exists()) {
+                        snapshot.forEach((child) => {
+                            allScores.push(child.val());
+                        });
+                    }
+                } catch(e) {}
+            }
+
+            if(allScores.length === 0) {
+                try {
+                    const localData = JSON.parse(localStorage.getItem('quiz_ranking') || '[]');
+                    allScores = localData;
+                } catch(e) {}
+            }
+
+            // Ordenar por acertos decrescente
+            allScores.sort((a, b) => b.score - a.score);
+
+            tbody.innerHTML = '';
+            if(allScores.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" class="py-4 text-center text-xs text-[#dcd6c9]">Nenhum registro encontrado ainda. Seja o primeiro a jogar!</td></tr>`;
                 return;
             }
 
-            rankings.forEach((item, index) => {
+            allScores.forEach((item, index) => {
                 const tr = document.createElement('tr');
-                tr.className = index % 2 === 0 ? 'bg-[#f4ecd8]' : 'bg-[#ede3cc]';
-                
-                let medalIcon = '';
-                if (index === 0) medalIcon = '<i class="fas fa-medal text-yellow-600 mr-1"></i>';
-                else if (index === 1) medalIcon = '<i class="fas fa-medal text-slate-400 mr-1"></i>';
-                else if (index === 2) medalIcon = '<i class="fas fa-medal text-amber-700 mr-1"></i>';
-
+                tr.className = "border-b border-[#8c6d48]/10 hover:bg-[#321c12]/40";
                 tr.innerHTML = `
-                    <td class="py-3 px-3 font-bold">${medalIcon} ${index + 1}º</td>
-                    <td class="py-3 px-3 font-semibold text-[#2b1810]">${escapeHTML(item.name || 'Jogador Anônimo')}</td>
-                    <td class="py-3 px-3 text-center font-bold text-[#8b0000]">${item.score} / 15</td>
-                    <td class="py-3 px-3 text-right text-xs text-[#654321]">${item.date || '-'}</td>
+                    <td class="py-3 px-3 font-bold text-[#d4af37]">${index + 1}º</td>
+                    <td class="py-3 px-3 font-medium text-[#f4ecd8]">${escapeHtml(item.name)}</td>
+                    <td class="py-3 px-3 text-right font-bold text-[#f3e5ab]">${item.score} / 15</td>
                 `;
                 tbody.appendChild(tr);
             });
-        }
-
-        window.restartQuiz = function() {
-            document.getElementById('player-name-input').value = "";
-            window.goToScreen('screen-name');
         };
 
-        function escapeHTML(str) {
-            return str.replace(/[&<>'"]/g, 
-                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
-            );
+        window.backToHome = function() {
+            document.getElementById('screen-ranking').classList.add('hidden');
+            document.getElementById('screen-home').classList.remove('hidden');
+        };
+
+        window.resetGame = function() {
+            document.getElementById('screen-gameover').classList.add('hidden');
+            goToNameInput();
+        };
+
+        function escapeHtml(text) {
+            if(!text) return '';
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
         }
     </script>
 </body>
