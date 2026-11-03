@@ -151,7 +151,7 @@
                 <p class="text-xs text-[#fef3c7] uppercase tracking-wider font-semibold">Pontuação Final:</p>
                 <p id="final-points" class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#fde047] to-[#f59e0b] mb-2 drop-shadow">0 pts</p>
                 <p class="text-sm text-[#fef3c7] font-bold">Acertos: <span id="final-correct" class="font-black text-[#4ade80]">0 / 15</span></p>
-                <p id="sync-status" class="text-xs text-emerald-400 mt-4 font-bold">Salvando pontuação na nuvem...</p>
+                <p id="sync-status" class="text-xs text-emerald-400 mt-4 font-black">Salvando pontuação na nuvem...</p>
             </div>
 
             <div class="flex flex-col sm:flex-row justify-center gap-4">
@@ -205,8 +205,8 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getDatabase, ref, push, set, get } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
         // Configuração do Firebase
         const firebaseConfig = {
@@ -225,6 +225,9 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
         const rtdb = getDatabase(app);
+
+        let unsubscribeFirestore = null;
+        let unsubscribeRealtime = null;
 
         signInAnonymously(auth).then(() => {
             console.log("Firebase autenticado com sucesso!");
@@ -688,55 +691,19 @@
             }
         }
 
-        window.showRankingScreen = async function() {
-            document.getElementById('screen-home').classList.add('hidden');
-            document.getElementById('screen-gameover').classList.add('hidden');
-            document.getElementById('screen-ranking').classList.remove('hidden');
-
+        function renderRankingTable(scores) {
             const tbody = document.getElementById('ranking-table-body');
-            tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-xs text-[#fef3c7]">Carregando ranking da nuvem...</td></tr>`;
-
-            let allScores = [];
-
-            // Buscar do Firestore
-            try {
-                const q = query(collection(db, "rankings"), orderBy("score", "desc"));
-                const querySnapshot = await getDocs(q);
-                querySnapshot.forEach((doc) => {
-                    allScores.push(doc.data());
-                });
-            } catch(e) {}
-
-            // Buscar do Realtime DB se necessário
-            if(allScores.length === 0) {
-                try {
-                    const snapshot = await get(ref(rtdb, 'rankings'));
-                    if(snapshot.exists()) {
-                        snapshot.forEach((child) => {
-                            allScores.push(child.val());
-                        });
-                    }
-                } catch(e) {}
-            }
-
-            // Buscar do LocalStorage se necessário
-            if(allScores.length === 0) {
-                try {
-                    const localData = JSON.parse(localStorage.getItem('quiz_ranking_v2') || '[]');
-                    allScores = localData;
-                } catch(e) {}
-            }
-
+            
             // Ordenar por pontuação decrescente
-            allScores.sort((a, b) => (b.points || b.score || 0) - (a.points || a.score || 0));
+            scores.sort((a, b) => (b.points || b.score || 0) - (a.points || a.score || 0));
 
             tbody.innerHTML = '';
-            if(allScores.length === 0) {
+            if(scores.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-xs text-[#fef3c7]">Nenhum registro encontrado ainda. Seja o primeiro a jogar!</td></tr>`;
                 return;
             }
 
-            allScores.forEach((item, index) => {
+            scores.forEach((item, index) => {
                 const pts = item.points !== undefined ? item.points : (item.score || 0);
                 const corr = item.correctCount !== undefined ? `${item.correctCount} / 15` : `-`;
                 const tr = document.createElement('tr');
@@ -749,14 +716,77 @@
                 `;
                 tbody.appendChild(tr);
             });
+        }
+
+        window.showRankingScreen = function() {
+            document.getElementById('screen-home').classList.add('hidden');
+            document.getElementById('screen-gameover').classList.add('hidden');
+            document.getElementById('screen-ranking').classList.remove('hidden');
+
+            const tbody = document.getElementById('ranking-table-body');
+            tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-xs text-[#fef3c7]">Conectando ao Firebase em tempo real...</td></tr>`;
+
+            // Cancelar escutas anteriores para evitar duplicidade
+            if(unsubscribeFirestore) unsubscribeFirestore();
+            if(unsubscribeRealtime) unsubscribeRealtime();
+
+            let loadedFromCloud = false;
+
+            // Escuta em Tempo Real do Firestore (onSnapshot)
+            try {
+                const q = query(collection(db, "rankings"), orderBy("score", "desc"));
+                unsubscribeFirestore = onSnapshot(q, (querySnapshot) => {
+                    let allScores = [];
+                    querySnapshot.forEach((doc) => {
+                        allScores.push(doc.data());
+                    });
+                    loadedFromCloud = true;
+                    renderRankingTable(allScores);
+                }, (error) => {
+                    console.warn("Falha na escuta do Firestore:", error);
+                });
+            } catch(e) {
+                console.warn("Erro ao iniciar escuta do Firestore:", e);
+            }
+
+            // Escuta em Tempo Real do Realtime Database (caso o Firestore falhe)
+            setTimeout(() => {
+                if(!loadedFromCloud) {
+                    try {
+                        const rtdbRef = ref(rtdb, 'rankings');
+                        unsubscribeRealtime = onValue(rtdbRef, (snapshot) => {
+                            let allScores = [];
+                            if(snapshot.exists()) {
+                                snapshot.forEach((child) => {
+                                    allScores.push(child.val());
+                                });
+                            }
+                            if(allScores.length > 0) {
+                                renderRankingTable(allScores);
+                            } else {
+                                // Fallback LocalStorage
+                                const localData = JSON.parse(localStorage.getItem('quiz_ranking_v2') || '[]');
+                                renderRankingTable(localData);
+                            }
+                        });
+                    } catch(e) {
+                        const localData = JSON.parse(localStorage.getItem('quiz_ranking_v2') || '[]');
+                        renderRankingTable(localData);
+                    }
+                }
+            }, 1000);
         };
 
         window.backToHome = function() {
+            if(unsubscribeFirestore) unsubscribeFirestore();
+            if(unsubscribeRealtime) unsubscribeRealtime();
             document.getElementById('screen-ranking').classList.add('hidden');
             document.getElementById('screen-home').classList.remove('hidden');
         };
 
         window.resetGame = function() {
+            if(unsubscribeFirestore) unsubscribeFirestore();
+            if(unsubscribeRealtime) unsubscribeRealtime();
             document.getElementById('screen-gameover').classList.add('hidden');
             document.getElementById('screen-home').classList.remove('hidden');
         };
