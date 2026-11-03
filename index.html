@@ -34,76 +34,79 @@
         .animate-wrong {
             animation: shake-red 0.6s ease-in-out;
         }
+        .glow-card {
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#3a2213] via-[#1f110a] to-[#0d0704]">
 
     <!-- Header / Título do Tema -->
-    <header class="w-full py-6 px-4 text-center border-b border-[#8c6d48]/40 bg-[#150a06]/80 backdrop-blur shadow-lg">
-        <h1 class="text-2xl md:text-4xl font-black tracking-wider text-[#f3e5ab] drop-shadow-md">
+    <header class="w-full py-6 px-4 text-center border-b border-[#8c6d48]/40 bg-[#150a06]/90 backdrop-blur shadow-2xl">
+        <h1 class="text-2xl md:text-4xl font-black tracking-wider text-[#f3e5ab] drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
             RAÍZES: COLONIZAÇÃO, ESCRAVIDÃO E POVOS ORIGINÁRIOS
         </h1>
-        <p class="text-xs md:text-sm text-[#d4af37] tracking-widest uppercase mt-1">A Cidadania Negada</p>
+        <p class="text-xs md:text-sm text-[#d4af37] tracking-widest uppercase mt-1 font-semibold">A Cidadania Negada</p>
     </header>
 
     <!-- Main Container -->
     <main class="flex-grow flex items-center justify-center p-4 max-w-4xl mx-auto w-full">
 
         <!-- 1. Tela Inicial -->
-        <div id="screen-home" class="w-full bg-[#2b1810]/90 border-2 border-[#8c6d48] rounded-2xl p-8 shadow-2xl text-center backdrop-blur">
+        <div id="screen-home" class="w-full bg-[#2b1810]/95 border-2 border-[#8c6d48] rounded-2xl p-8 shadow-2xl text-center backdrop-blur glow-card">
             <div class="mb-6">
-                <span class="inline-block px-4 py-1 rounded-full bg-[#4a2e18] text-[#f3e5ab] text-xs font-semibold tracking-wider uppercase border border-[#8c6d48]">
+                <span class="inline-block px-4 py-1.5 rounded-full bg-[#4a2e18] text-[#f3e5ab] text-xs font-bold tracking-wider uppercase border border-[#ffd700]/30 shadow-md">
                     Apresentação Escolar • História do Brasil
                 </span>
             </div>
-            <h2 class="text-3xl font-bold mb-4 text-[#f3e5ab]">Desafio Histórico</h2>
+            <h2 class="text-3xl font-bold mb-4 text-[#f3e5ab] tracking-wide">Desafio Histórico</h2>
             <p class="text-[#dcd6c9] mb-8 max-w-lg mx-auto text-sm md:text-base leading-relaxed">
-                Teste seus conhecimentos sobre a colonização, a resistência dos povos originários e o impacto da escravidão na construção da sociedade brasileira. Responda rápido para acumular mais pontos!
+                Teste seus conhecimentos sobre a colonização, a resistência dos povos originários e o impacto da escravidão na construção da sociedade brasileira. Pense com calma nos primeiros segundos e responda rápido para acumular mais pontos!
             </p>
             <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <button onclick="goToNameInput()" class="px-8 py-3 bg-gradient-to-r from-[#8b5a2b] to-[#b8860b] hover:from-[#a06832] hover:to-[#cca300] text-[#fff] font-bold rounded-xl shadow-lg transition transform hover:-translate-y-0.5 border border-[#ffd700]/50 tracking-wider font-historical cursor-pointer">
+                <button onclick="goToNameInput()" class="px-8 py-3.5 bg-gradient-to-r from-[#8b5a2b] to-[#b8860b] hover:from-[#a06832] hover:to-[#cca300] text-[#fff] font-bold rounded-xl shadow-xl transition transform hover:-translate-y-1 border border-[#ffd700]/60 tracking-wider font-historical cursor-pointer">
                     JOGAR
                 </button>
-                <button onclick="showRankingScreen()" class="px-8 py-3 bg-[#3d2316] hover:bg-[#523120] text-[#f3e5ab] font-bold rounded-xl shadow-lg transition transform hover:-translate-y-0.5 border border-[#8c6d48] tracking-wider font-historical cursor-pointer">
+                <button onclick="showRankingScreen()" class="px-8 py-3.5 bg-[#3d2316] hover:bg-[#523120] text-[#f3e5ab] font-bold rounded-xl shadow-xl transition transform hover:-translate-y-1 border border-[#8c6d48] tracking-wider font-historical cursor-pointer">
                     VER RANKING
                 </button>
             </div>
         </div>
 
         <!-- 2. Tela de Identificação do Jogador -->
-        <div id="screen-name" class="hidden w-full bg-[#2b1810]/90 border-2 border-[#8c6d48] rounded-2xl p-8 shadow-2xl text-center backdrop-blur max-w-md">
+        <div id="screen-name" class="hidden w-full bg-[#2b1810]/95 border-2 border-[#8c6d48] rounded-2xl p-8 shadow-2xl text-center backdrop-blur max-w-md glow-card">
             <h2 class="text-2xl font-bold mb-4 text-[#f3e5ab]">Identificação</h2>
             <p class="text-sm text-[#dcd6c9] mb-6">Digite seu nome para registrar sua pontuação no ranking histórico:</p>
-            <input type="text" id="player-name-input" placeholder="Seu nome completo..." class="w-full px-4 py-3 bg-[#1a0f0a] border border-[#8c6d48] rounded-xl text-[#f4ecd8] placeholder-[#7a6452] focus:outline-none focus:border-[#d4af37] mb-6 text-center text-lg font-medium">
-            <button onclick="startQuiz()" class="w-full py-3 bg-gradient-to-r from-[#8b5a2b] to-[#b8860b] hover:from-[#a06832] hover:to-[#cca300] text-[#fff] font-bold rounded-xl shadow-lg transition font-historical tracking-wider cursor-pointer">
+            <input type="text" id="player-name-input" placeholder="Seu nome completo..." class="w-full px-4 py-3 bg-[#1a0f0a] border border-[#8c6d48] rounded-xl text-[#f4ecd8] placeholder-[#7a6452] focus:outline-none focus:border-[#d4af37] mb-6 text-center text-lg font-medium shadow-inner">
+            <button onclick="startQuiz()" class="w-full py-3.5 bg-gradient-to-r from-[#8b5a2b] to-[#b8860b] hover:from-[#a06832] hover:to-[#cca300] text-[#fff] font-bold rounded-xl shadow-xl transition font-historical tracking-wider cursor-pointer">
                 COMEÇAR JOGO
             </button>
         </div>
 
         <!-- 3. Tela do Quiz -->
-        <div id="screen-quiz" class="hidden w-full bg-[#2b1810]/90 border-2 border-[#8c6d48] rounded-2xl p-6 md:p-8 shadow-2xl backdrop-blur">
+        <div id="screen-quiz" class="hidden w-full bg-[#2b1810]/95 border-2 border-[#8c6d48] rounded-2xl p-6 md:p-8 shadow-2xl backdrop-blur glow-card">
             <!-- Barra superior do quiz (Progresso, Pontos e Timer) -->
             <div class="flex flex-wrap justify-between items-center mb-6 border-b border-[#8c6d48]/40 pb-4 gap-3">
-                <span id="question-counter" class="text-sm font-semibold text-[#d4af37] tracking-wider">Pergunta 1 de 15</span>
+                <span id="question-counter" class="text-sm font-bold text-[#d4af37] tracking-wider">Pergunta 1 de 15</span>
                 <div class="flex items-center gap-3">
-                    <div class="flex items-center gap-1.5 bg-[#1a0f0a] px-3 py-1.5 rounded-full border border-[#8c6d48]/60">
+                    <div class="flex items-center gap-1.5 bg-[#1a0f0a] px-3.5 py-1.5 rounded-full border border-[#8c6d48]/60 shadow-md">
                         <span class="text-xs text-[#dcd6c9]">⭐ Pontos:</span>
                         <span id="points-display" class="font-bold text-[#f3e5ab] text-sm">0</span>
                     </div>
-                    <div class="flex items-center gap-1.5 bg-[#1a0f0a] px-3 py-1.5 rounded-full border border-[#8c6d48]/60">
-                        <span class="text-xs text-[#dcd6c9]">⏱️ Tempo:</span>
-                        <span id="timer-display" class="font-bold text-[#f3e5ab] text-sm">30s</span>
+                    <div class="flex items-center gap-1.5 bg-[#1a0f0a] px-3.5 py-1.5 rounded-full border border-[#8c6d48]/60 shadow-md">
+                        <span id="timer-label" class="text-xs text-[#dcd6c9]">🧠 Tempo:</span>
+                        <span id="timer-display" class="font-bold text-[#f3e5ab] text-sm">10s</span>
                     </div>
                 </div>
             </div>
 
             <!-- Enunciado da Pergunta -->
-            <h3 id="question-text" class="text-lg md:text-xl font-bold text-[#f3e5ab] mb-6 min-h-[60px] leading-snug">
+            <h3 id="question-text" class="text-lg md:text-xl font-bold text-[#f3e5ab] mb-6 min-h-[60px] leading-snug drop-shadow-sm">
                 <!-- Inserido via JS -->
             </h3>
 
             <!-- Caixa de Feedback Temático -->
-            <div id="feedback-container" class="hidden mb-6 p-4 rounded-xl text-center text-sm md:text-base font-medium transition-all duration-300">
+            <div id="feedback-container" class="hidden mb-6 p-4 rounded-xl text-center text-sm md:text-base font-medium transition-all duration-300 shadow-lg">
                 <!-- Inserido via JS -->
             </div>
 
@@ -114,34 +117,34 @@
         </div>
 
         <!-- 4. Tela de Fim de Jogo / Resultado -->
-        <div id="screen-gameover" class="hidden w-full bg-[#2b1810]/90 border-2 border-[#8c6d48] rounded-2xl p-8 shadow-2xl text-center backdrop-blur max-w-lg">
+        <div id="screen-gameover" class="hidden w-full bg-[#2b1810]/95 border-2 border-[#8c6d48] rounded-2xl p-8 shadow-2xl text-center backdrop-blur max-w-lg glow-card">
             <h2 class="text-3xl font-bold mb-2 text-[#f3e5ab]">Fim de Jogo!</h2>
             <p class="text-sm text-[#d4af37] mb-6">Sua jornada pelo conhecimento histórico chegou ao fim.</p>
             
-            <div class="bg-[#1a0f0a] border border-[#8c6d48]/60 rounded-xl p-6 mb-6">
+            <div class="bg-[#1a0f0a] border border-[#8c6d48]/60 rounded-xl p-6 mb-6 shadow-inner">
                 <p class="text-sm text-[#dcd6c9]">Participante:</p>
                 <p id="final-player-name" class="text-xl font-bold text-[#f3e5ab] mb-3">Nome</p>
                 <p class="text-sm text-[#dcd6c9]">Pontuação Final:</p>
-                <p id="final-points" class="text-3xl font-black text-[#d4af37] mb-2">0 pts</p>
+                <p id="final-points" class="text-3xl font-black text-[#d4af37] mb-2 drop-shadow">0 pts</p>
                 <p class="text-xs text-[#dcd6c9]">Acertos: <span id="final-correct" class="font-bold text-[#f3e5ab]">0 / 15</span></p>
                 <p id="sync-status" class="text-xs text-emerald-400 mt-3 font-medium">Salvando pontuação na nuvem...</p>
             </div>
 
             <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <button onclick="showRankingScreen()" class="px-6 py-3 bg-gradient-to-r from-[#8b5a2b] to-[#b8860b] hover:from-[#a06832] hover:to-[#cca300] text-[#fff] font-bold rounded-xl shadow-lg transition font-historical tracking-wider cursor-pointer">
+                <button onclick="showRankingScreen()" class="px-6 py-3.5 bg-gradient-to-r from-[#8b5a2b] to-[#b8860b] hover:from-[#a06832] hover:to-[#cca300] text-[#fff] font-bold rounded-xl shadow-xl transition font-historical tracking-wider cursor-pointer">
                     VER RANKING
                 </button>
-                <button onclick="resetGame()" class="px-6 py-3 bg-[#3d2316] hover:bg-[#523120] text-[#f3e5ab] font-bold rounded-xl shadow-lg transition border border-[#8c6d48] font-historical tracking-wider cursor-pointer">
+                <button onclick="resetGame()" class="px-6 py-3.5 bg-[#3d2316] hover:bg-[#523120] text-[#f3e5ab] font-bold rounded-xl shadow-xl transition border border-[#8c6d48] font-historical tracking-wider cursor-pointer">
                     JOGAR NOVAMENTE
                 </button>
             </div>
         </div>
 
         <!-- 5. Tela de Ranking -->
-        <div id="screen-ranking" class="hidden w-full bg-[#2b1810]/90 border-2 border-[#8c6d48] rounded-2xl p-6 md:p-8 shadow-2xl backdrop-blur max-w-2xl">
+        <div id="screen-ranking" class="hidden w-full bg-[#2b1810]/95 border-2 border-[#8c6d48] rounded-2xl p-6 md:p-8 shadow-2xl backdrop-blur max-w-2xl glow-card">
             <div class="flex justify-between items-center mb-6 border-b border-[#8c6d48]/40 pb-4">
                 <h2 class="text-2xl font-bold text-[#f3e5ab]">Ranking Histórico</h2>
-                <button onclick="backToHome()" class="px-4 py-1.5 bg-[#3d2316] hover:bg-[#523120] text-[#f3e5ab] text-xs font-bold rounded-lg border border-[#8c6d48] cursor-pointer">
+                <button onclick="backToHome()" class="px-4 py-1.5 bg-[#3d2316] hover:bg-[#523120] text-[#f3e5ab] text-xs font-bold rounded-lg border border-[#8c6d48] cursor-pointer shadow-md">
                     Voltar ao Início
                 </button>
             </div>
@@ -162,7 +165,7 @@
                 </table>
             </div>
 
-            <button onclick="goToNameInput()" class="w-full py-3 bg-gradient-to-r from-[#8b5a2b] to-[#b8860b] hover:from-[#a06832] hover:to-[#cca300] text-[#fff] font-bold rounded-xl shadow-lg transition font-historical tracking-wider cursor-pointer">
+            <button onclick="goToNameInput()" class="w-full py-3.5 bg-gradient-to-r from-[#8b5a2b] to-[#b8860b] hover:from-[#a06832] hover:to-[#cca300] text-[#fff] font-bold rounded-xl shadow-xl transition font-historical tracking-wider cursor-pointer">
                 JOGAR AGORA
             </button>
         </div>
@@ -170,7 +173,7 @@
     </main>
 
     <!-- Rodapé com Créditos -->
-    <footer class="w-full py-4 px-4 text-center border-t border-[#8c6d48]/40 bg-[#150a06]/90 text-xs md:text-sm text-[#dcd6c9]">
+    <footer class="w-full py-4 px-4 text-center border-t border-[#8c6d48]/40 bg-[#150a06]/95 text-xs md:text-sm text-[#dcd6c9] shadow-inner">
         <p class="font-medium text-[#f3e5ab]">Equipe: <span class="text-[#fff]">Iasmim Santos; Ana Maria; Saulo Timóteo; Guilherme Mota e Karoline</span> • <span class="text-[#d4af37] font-bold">11EM</span></p>
     </footer>
 
@@ -181,7 +184,7 @@
         import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getDatabase, ref, push, set, get } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
-        // Configuração fornecida
+        // Configuração fornecida[cite: 3]
         const firebaseConfig = {
             apiKey: "AIzaSyBGiS0z6DGxSIvkrzu43u5DXjYW3G3O5uQ",
             authDomain: "trabalhogustavo-6cedd.firebaseapp.com",
@@ -193,7 +196,7 @@
             measurementId: "G-PJ8VEW1236"
         };
 
-        // Inicializar Firebase
+        // Inicializar Firebase[cite: 3]
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
@@ -205,7 +208,7 @@
             console.error("Erro na autenticação anônima do Firebase:", error);
         });
 
-        // Frases temáticas de feedback
+        // Frases temáticas de feedback[cite: 3]
         const correctPhrases = [
             "🔥 Brilhante! A resistência dos povos originários e negros moldou a verdadeira identidade brasileira!",
             "⭐ Exato! Conhecer nossa história é o primeiro passo fundamental para combater a cidadania negada.",
@@ -226,7 +229,7 @@
             "⌛ Tempo esgotado! Não se preocupe, o importante é refletir sobre as raízes da nossa sociedade."
         ];
 
-        // Banco de Perguntas (15 questões)
+        // Banco de Perguntas (15 questões)[cite: 3]
         const questions = [
             {
                 q: "O que foi a colonização do Brasil?",
@@ -385,7 +388,8 @@
         let correctCount = 0;
         let playerName = "";
         let timer = null;
-        let timeLeft = 30;
+        let timeLeft = 10;
+        let quizPhase = 'thinking'; // 'thinking' (10s) ou 'answering' (20s)
         let isAnswerProcessed = false;
 
         // Expor funções globalmente
@@ -414,22 +418,26 @@
         function loadQuestion() {
             clearInterval(timer);
             isAnswerProcessed = false;
+            quizPhase = 'thinking';
+            timeLeft = 10; // 10 segundos para pensar
             
             if(currentQuestionIndex >= questions.length) {
                 endQuiz();
                 return;
             }
 
-            timeLeft = 30;
-            document.getElementById('timer-display').innerText = timeLeft + 's';
-            
             const qData = questions[currentQuestionIndex];
             document.getElementById('question-counter').innerText = `Pergunta ${currentQuestionIndex + 1} de ${questions.length}`;
             document.getElementById('question-text').innerText = qData.q;
 
-            // Esconder feedback anterior
+            // Exibir aviso de tempo de reflexão
             const feedbackContainer = document.getElementById('feedback-container');
-            feedbackContainer.classList.add('hidden');
+            feedbackContainer.classList.remove('hidden');
+            feedbackContainer.className = "mb-6 p-3 rounded-xl text-center text-xs md:text-sm font-semibold bg-[#3a2213] border border-[#d4af37]/50 text-[#f3e5ab] shadow-inner";
+            feedbackContainer.innerHTML = `🧠 <strong>Tempo de Reflexão:</strong> Analise a pergunta com calma... A marcação abrirá em breve!`;
+
+            document.getElementById('timer-label').innerText = "🧠 Pensar:";
+            document.getElementById('timer-display').innerText = timeLeft + 's';
 
             // Embaralhar as opções mantendo rastreio da correta
             let optionsWithIndex = qData.options.map((opt, idx) => ({ text: opt, originalIndex: idx }));
@@ -441,14 +449,49 @@
             optionsWithIndex.forEach((item) => {
                 const btn = document.createElement('button');
                 const isCorrect = item.originalIndex === qData.correct;
-                btn.className = "w-full text-left p-4 rounded-xl bg-[#1a0f0a] border border-[#8c6d48]/60 hover:border-[#d4af37] text-[#f4ecd8] font-medium transition shadow-md hover:bg-[#321c12] cursor-pointer text-sm md:text-base";
+                // Botões bloqueados visualmente durante o tempo de reflexão
+                btn.className = "w-full text-left p-4 rounded-xl bg-[#1a0f0a]/40 border border-[#8c6d48]/30 text-[#8a7560] font-medium opacity-60 cursor-not-allowed text-sm md:text-base transition-all";
                 btn.innerText = item.text;
+                btn.disabled = true;
                 btn.setAttribute('data-correct', isCorrect);
-                btn.onclick = () => selectAnswer(isCorrect, btn);
+                btn.onclick = () => {
+                    if(quizPhase === 'answering') {
+                        selectAnswer(isCorrect, btn);
+                    }
+                };
                 container.appendChild(btn);
             });
 
-            // Iniciar Timer
+            // Iniciar Timer de Reflexão (10s)
+            timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer-display').innerText = timeLeft + 's';
+                if(timeLeft <= 0) {
+                    clearInterval(timer);
+                    startAnsweringPhase();
+                }
+            }, 1000);
+        }
+
+        function startAnsweringPhase() {
+            quizPhase = 'answering';
+            timeLeft = 20; // 20 segundos para responder após abrir a marcação
+            document.getElementById('timer-label').innerText = "⏱️ Resposta:";
+            document.getElementById('timer-display').innerText = timeLeft + 's';
+
+            const feedbackContainer = document.getElementById('feedback-container');
+            feedbackContainer.className = "mb-6 p-3 rounded-xl text-center text-xs md:text-sm font-bold bg-[#166534]/90 border border-green-500 text-white shadow-lg animate-pulse";
+            feedbackContainer.innerHTML = `🚀 <strong>Marcação Aberta!</strong> Escolha sua resposta rapidamente!`;
+
+            // Liberar os botões
+            const container = document.getElementById('options-container');
+            const buttons = container.getElementsByTagName('button');
+            for(let b of buttons) {
+                b.disabled = false;
+                b.className = "w-full text-left p-4 rounded-xl bg-[#1a0f0a] border border-[#8c6d48]/60 hover:border-[#d4af37] text-[#f4ecd8] font-medium transition-all shadow-md hover:bg-[#321c12] cursor-pointer text-sm md:text-base hover:scale-[1.01]";
+            }
+
+            // Iniciar Timer de Resposta
             timer = setInterval(() => {
                 timeLeft--;
                 document.getElementById('timer-display').innerText = timeLeft + 's';
@@ -476,7 +519,7 @@
             const feedbackContainer = document.getElementById('feedback-container');
             feedbackContainer.classList.remove('hidden');
             const randomPhrase = timeoutPhrases[Math.floor(Math.random() * timeoutPhrases.length)];
-            feedbackContainer.className = "mb-6 p-4 rounded-xl text-center text-sm md:text-base font-medium bg-[#78350f]/80 border border-amber-500 text-white shadow-lg";
+            feedbackContainer.className = "mb-6 p-4 rounded-xl text-center text-sm md:text-base font-medium bg-[#78350f]/90 border border-amber-500 text-white shadow-lg";
             feedbackContainer.innerHTML = `⏱️ <strong>Tempo Esgotado! (0 pts)</strong><br><span class="text-xs md:text-sm font-normal text-[#f4ecd8] mt-1 block">${randomPhrase}</span>`;
 
             setTimeout(() => {
@@ -486,7 +529,7 @@
         }
 
         window.selectAnswer = function(isCorrect, btnElement) {
-            if(isAnswerProcessed) return;
+            if(isAnswerProcessed || quizPhase !== 'answering') return;
             isAnswerProcessed = true;
             clearInterval(timer);
 
@@ -505,7 +548,7 @@
 
             if(isCorrect) {
                 correctCount++;
-                // Pontuação base (100) + bônus proporcional ao tempo restante (10 pts por segundo)
+                // Pontuação base (100) + bônus proporcional ao tempo restante da resposta (10 pts por segundo)
                 const timeBonus = timeLeft * 10;
                 const pointsEarned = 100 + timeBonus;
                 totalPoints += pointsEarned;
@@ -545,7 +588,7 @@
             
             const record = {
                 name: name,
-                score: points, // Salvo em score para ordenação universal
+                score: points,
                 points: points,
                 correctCount: correct,
                 date: new Date().toISOString()
@@ -553,7 +596,7 @@
 
             let saved = false;
 
-            // Tentativa 1: Cloud Firestore
+            // Tentativa 1: Cloud Firestore[cite: 3]
             try {
                 await addDoc(collection(db, "rankings"), record);
                 saved = true;
@@ -561,7 +604,7 @@
                 console.warn("Falha no Firestore:", e);
             }
 
-            // Tentativa 2: Realtime Database
+            // Tentativa 2: Realtime Database[cite: 3]
             try {
                 const newRef = push(ref(rtdb, 'rankings'));
                 await set(newRef, record);
@@ -570,7 +613,7 @@
                 console.warn("Falha no Realtime Database:", e);
             }
 
-            // LocalStorage Backup
+            // LocalStorage Backup[cite: 3]
             try {
                 let localRank = JSON.parse(localStorage.getItem('quiz_ranking_v2') || '[]');
                 localRank.push(record);
@@ -596,7 +639,7 @@
 
             let allScores = [];
 
-            // Buscar do Firestore
+            // Buscar do Firestore[cite: 3]
             try {
                 const q = query(collection(db, "rankings"), orderBy("score", "desc"));
                 const querySnapshot = await getDocs(q);
@@ -605,7 +648,7 @@
                 });
             } catch(e) {}
 
-            // Buscar do Realtime DB se necessário
+            // Buscar do Realtime DB se necessário[cite: 3]
             if(allScores.length === 0) {
                 try {
                     const snapshot = await get(ref(rtdb, 'rankings'));
@@ -617,7 +660,7 @@
                 } catch(e) {}
             }
 
-            // Buscar do LocalStorage se necessário
+            // Buscar do LocalStorage se necessário[cite: 3]
             if(allScores.length === 0) {
                 try {
                     const localData = JSON.parse(localStorage.getItem('quiz_ranking_v2') || '[]');
@@ -625,7 +668,7 @@
                 } catch(e) {}
             }
 
-            // Ordenar por pontuação decrescente
+            // Ordenar por pontuação decrescente[cite: 3]
             allScores.sort((a, b) => (b.points || b.score || 0) - (a.points || a.score || 0));
 
             tbody.innerHTML = '';
@@ -638,7 +681,7 @@
                 const pts = item.points !== undefined ? item.points : (item.score || 0);
                 const corr = item.correctCount !== undefined ? `${item.correctCount} / 15` : `-`;
                 const tr = document.createElement('tr');
-                tr.className = "border-b border-[#8c6d48]/10 hover:bg-[#321c12]/40";
+                tr.className = "border-b border-[#8c6d48]/10 hover:bg-[#321c12]/40 transition-colors";
                 tr.innerHTML = `
                     <td class="py-3 px-3 font-bold text-[#d4af37]">${index + 1}º</td>
                     <td class="py-3 px-3 font-medium text-[#f4ecd8]">${escapeHtml(item.name)}</td>
