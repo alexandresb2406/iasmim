@@ -205,8 +205,8 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getDatabase, ref, push, set, remove, onValue } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
         // Configuração do Firebase
         const firebaseConfig = {
@@ -458,13 +458,49 @@
             document.getElementById('screen-name').classList.remove('hidden');
         };
 
+        // Função para resetar o ranking via comando secreto "reset_"
+        async function resetRankingDatabase() {
+            if(!confirm("⚠️ Deseja realmente APAGAR TODO O RANKING da nuvem?")) return;
+            
+            // Resetar Firestore
+            try {
+                const querySnapshot = await getDocs(collection(db, "rankings"));
+                let deletePromises = [];
+                querySnapshot.forEach((document) => {
+                    deletePromises.push(deleteDoc(doc(db, "rankings", document.id)));
+                });
+                await Promise.all(deletePromises);
+            } catch(e) {
+                console.warn("Erro ao limpar Firestore:", e);
+            }
+
+            // Resetar Realtime Database
+            try {
+                await remove(ref(rtdb, 'rankings'));
+            } catch(e) {
+                console.warn("Erro ao limpar Realtime DB:", e);
+            }
+
+            alert("🧹 Ranking limpo com sucesso!");
+            document.getElementById('player-name-input').value = "";
+            backToHome();
+        }
+
         window.startQuiz = function() {
             const input = document.getElementById('player-name-input');
             playerName = input.value.trim();
+            
             if(!playerName) {
                 alert("Por favor, digite seu nome para continuar!");
                 return;
             }
+
+            // Comando Secreto para Resetar o Ranking
+            if(playerName === "reset_") {
+                resetRankingDatabase();
+                return;
+            }
+
             document.getElementById('screen-name').classList.add('hidden');
             document.getElementById('screen-quiz').classList.remove('hidden');
             currentQuestionIndex = 0;
@@ -675,18 +711,11 @@
                 console.warn("Falha no Realtime Database:", e);
             }
 
-            // LocalStorage Backup
-            try {
-                let localRank = JSON.parse(localStorage.getItem('quiz_ranking_v2') || '[]');
-                localRank.push(record);
-                localStorage.setItem('quiz_ranking_v2', JSON.stringify(localRank));
-            } catch(e) {}
-
             if(saved) {
                 statusEl.innerText = "✅ Pontuação salva com sucesso na nuvem!";
                 statusEl.className = "text-xs text-emerald-400 mt-4 font-black";
             } else {
-                statusEl.innerText = "⚠️ Salvo no modo local com sucesso.";
+                statusEl.innerText = "⚠️ Erro ao salvar na nuvem.";
                 statusEl.className = "text-xs text-amber-400 mt-4 font-black";
             }
         }
@@ -699,7 +728,7 @@
 
             tbody.innerHTML = '';
             if(scores.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-xs text-[#fef3c7]">Nenhum registro encontrado ainda. Seja o primeiro a jogar!</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-xs text-[#fef3c7]">Nenhum registro encontrado no ranking.</td></tr>`;
                 return;
             }
 
@@ -724,15 +753,15 @@
             document.getElementById('screen-ranking').classList.remove('hidden');
 
             const tbody = document.getElementById('ranking-table-body');
-            tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-xs text-[#fef3c7]">Conectando ao Firebase em tempo real...</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-xs text-[#fef3c7]">A carregar ranking em tempo real...</td></tr>`;
 
             // Cancelar escutas anteriores para evitar duplicidade
             if(unsubscribeFirestore) unsubscribeFirestore();
             if(unsubscribeRealtime) unsubscribeRealtime();
 
-            let loadedFromCloud = false;
+            let cloudDataReceived = false;
 
-            // Escuta em Tempo Real do Firestore (onSnapshot)
+            // Escuta em Tempo Real do Firestore
             try {
                 const q = query(collection(db, "rankings"), orderBy("score", "desc"));
                 unsubscribeFirestore = onSnapshot(q, (querySnapshot) => {
@@ -740,7 +769,7 @@
                     querySnapshot.forEach((doc) => {
                         allScores.push(doc.data());
                     });
-                    loadedFromCloud = true;
+                    cloudDataReceived = true;
                     renderRankingTable(allScores);
                 }, (error) => {
                     console.warn("Falha na escuta do Firestore:", error);
@@ -749,32 +778,26 @@
                 console.warn("Erro ao iniciar escuta do Firestore:", e);
             }
 
-            // Escuta em Tempo Real do Realtime Database (caso o Firestore falhe)
-            setTimeout(() => {
-                if(!loadedFromCloud) {
-                    try {
-                        const rtdbRef = ref(rtdb, 'rankings');
-                        unsubscribeRealtime = onValue(rtdbRef, (snapshot) => {
-                            let allScores = [];
-                            if(snapshot.exists()) {
-                                snapshot.forEach((child) => {
-                                    allScores.push(child.val());
-                                });
-                            }
-                            if(allScores.length > 0) {
-                                renderRankingTable(allScores);
-                            } else {
-                                // Fallback LocalStorage
-                                const localData = JSON.parse(localStorage.getItem('quiz_ranking_v2') || '[]');
-                                renderRankingTable(localData);
-                            }
+            // Escuta em Tempo Real do Realtime Database (tratando nulos e vazios)
+            try {
+                const rtdbRef = ref(rtdb, 'rankings');
+                unsubscribeRealtime = onValue(rtdbRef, (snapshot) => {
+                    let allScores = [];
+                    if(snapshot.exists() && snapshot.val() !== null) {
+                        snapshot.forEach((child) => {
+                            const val = child.val();
+                            if(val) allScores.push(val);
                         });
-                    } catch(e) {
-                        const localData = JSON.parse(localStorage.getItem('quiz_ranking_v2') || '[]');
-                        renderRankingTable(localData);
                     }
-                }
-            }, 1000);
+                    if(!cloudDataReceived || allScores.length > 0) {
+                        renderRankingTable(allScores);
+                    }
+                }, (error) => {
+                    console.warn("Falha na escuta do Realtime DB:", error);
+                });
+            } catch(e) {
+                console.warn("Erro ao iniciar escuta do Realtime DB:", e);
+            }
         };
 
         window.backToHome = function() {
